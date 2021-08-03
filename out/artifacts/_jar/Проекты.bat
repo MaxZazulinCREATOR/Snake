@@ -1,1 +1,0 @@
-java -jar Проекты_jar.jar
