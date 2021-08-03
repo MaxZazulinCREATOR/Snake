@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 /* Внутреняя часть игры */
 public class Mechanics extends JPanel implements ActionListener {
-    Apple thisApple = new Apple();
     public final int DOT_SIZE = 32; // Размер пикселя !КОНСТАНТА!
     private final int SIZE = 500; // Размер поля !КОНСТАНТА!
     private final int ALL_DOTS = 400; // Сколько пикселей можно заполнить
@@ -54,25 +54,25 @@ public class Mechanics extends JPanel implements ActionListener {
         timer = new Timer(delay, this);
         timer.start();
 
-        thisApple.createApple();
+        createApple();
     }
 
     public void checkApple() {  // сьедение яблок
         if (x[0] == appleX - 32 && y[0] == appleY && !left && !up && !back) {
             dots++;
-            thisApple.createApple();
+            createApple();
         }
         if (x[0] == appleX + 32 && y[0] == appleY && !right && !up && !back) {
             dots++;
-            thisApple.createApple();
+            createApple();
         }
         if (x[0] == appleX && y[0] == appleY + 32 && !up && !right && !left) {
             dots++;
-            thisApple.createApple();
+            createApple();
         }
         if (x[0] == appleX && y[0] == appleY - 32 && !back && !right && !left) {
             dots++;
-            thisApple.createApple();
+            createApple();
         }
     }
     
@@ -86,9 +86,12 @@ public class Mechanics extends JPanel implements ActionListener {
         dot = iid.getImage();
 
     }
-
-
+    public void createApple() {
+        appleX = new Random().nextInt(16) * DOT_SIZE;
+        appleY = new Random().nextInt(16) * DOT_SIZE;
+    }
     @Override
+
     public void paintComponent(Graphics g) {
 
         int factor = 50 * level;
