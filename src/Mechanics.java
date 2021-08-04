@@ -4,38 +4,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
 /* Внутреняя часть игры */
 public class Mechanics extends JPanel implements ActionListener {
-    public final int DOT_SIZE = 32; // Размер пикселя !КОНСТАНТА!
+    Apple apple = new Apple();
+    public static final int DOT_SIZE = 32; // Размер пикселя !КОНСТАНТА!
     private final int SIZE = 500; // Размер поля !КОНСТАНТА!
-    private final int ALL_DOTS = 400; // Сколько пикселей можно заполнить
-    public int appleX; // Позиция яблока по ширине
-    public int appleY; // Позиция яблока по высоте
-    public int[] x = new int[ALL_DOTS]; // Массивы для сохранения кординат змейки
-    public int[] y = new int[ALL_DOTS];
-    public int dots; // размер змейки
+    private static final int ALL_DOTS = 400; // Сколько пикселей можно заполнить
+    private final boolean righteleport = false;
+    public static int appleX; // Позиция яблока по ширине
+    public static int appleY; // Позиция яблока по высоте
+    public static int[] x = new int[ALL_DOTS]; // Массивы для сохранения кординат змейки
+    public static int[] y = new int[ALL_DOTS];
+    public static int dots; // размер змейки
     public int delay = 200;
     public int level = 1;
     public int backgrondX = 0;
     public int backgrondY = 510;
     Music music = new Music();
     private Image dot; // рисунок пикселя
-    private Image Apple; // рисунок яблока
+    private Image AppleI; // рисунок яблока
     private Timer timer;
-    private boolean left = false;     //Напрвление змейки
-    private boolean right = true;
-    private boolean back = false;
-    private boolean up = false;
-    private boolean inGame = true;   //Проверяет нахождение в игре
-    private final boolean righteleport = false;
-    private boolean pause = false;
+    public static boolean left = false;     //Напрвление змейки
+    public static boolean right = true;
+    public static boolean back = false;
+    public static boolean up = false;
+    public boolean inGame = true;   //Проверяет нахождение в игре
+    public boolean pause = false;
     private Image background;
 
 
     public Mechanics() { // Конструктор
-        Music.play("src/Music.Wav");
+        Music.play("src/Music/Music.Wav");
         setBackground(Color.black); // Цвет поля, окна
         loadImage();
         newGame();
@@ -54,42 +54,24 @@ public class Mechanics extends JPanel implements ActionListener {
         timer = new Timer(delay, this);
         timer.start();
 
-        createApple();
+        Apple.createApple();
     }
 
-    public void checkApple() {  // сьедение яблок
-        if (x[0] == appleX - 32 && y[0] == appleY && !left && !up && !back) {
-            dots++;
-            createApple();
-        }
-        if (x[0] == appleX + 32 && y[0] == appleY && !right && !up && !back) {
-            dots++;
-            createApple();
-        }
-        if (x[0] == appleX && y[0] == appleY + 32 && !up && !right && !left) {
-            dots++;
-            createApple();
-        }
-        if (x[0] == appleX && y[0] == appleY - 32 && !back && !right && !left) {
-            dots++;
-            createApple();
-        }
-    }
-    
+
+
 
     public void loadImage() { // Метод загрузки картинок
-        ImageIcon iie = new ImageIcon("src/Доп фон.png");
+        ImageIcon iie = new ImageIcon("src/Image/Доп фон.png");
         background = iie.getImage();
-        ImageIcon iia = new ImageIcon("src/Apple.png");
-        Apple = iia.getImage();
-        ImageIcon iid = new ImageIcon("src/dots.png");
+        ImageIcon iia = new ImageIcon("src/Image/Apple.png");
+        AppleI = iia.getImage();
+        ImageIcon iid = new ImageIcon("src/Image/dots.png");
         dot = iid.getImage();
 
     }
-    public void createApple() {
-        appleX = new Random().nextInt(16) * DOT_SIZE;
-        appleY = new Random().nextInt(16) * DOT_SIZE;
-    }
+
+
+
     @Override
 
     public void paintComponent(Graphics g) {
@@ -155,11 +137,11 @@ public class Mechanics extends JPanel implements ActionListener {
 
         if (inGame) {
 
-            g.drawImage(Apple, appleX, appleY, this);
-
+            g.drawImage(AppleI, appleX, appleY, this);
+            g.drawImage(background, backgrondX, backgrondY, this);
             for (int i = 0; i < dots; i++) {
                 g.drawImage(dot, x[i], y[i], this);
-                g.drawImage(background, backgrondX, backgrondY, this);
+
 
                 Font f = new Font("TimesRoman", Font.BOLD, 16);
                 String string = "SCORE " + score;
@@ -235,13 +217,10 @@ public class Mechanics extends JPanel implements ActionListener {
     }
 
 
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (inGame) {
-            checkApple();
+            Apple.checkApple();
             checkCollisions();
             move();
         }
