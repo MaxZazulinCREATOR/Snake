@@ -11,7 +11,6 @@ public class Mechanics extends JPanel implements ActionListener {
     public static final int DOT_SIZE = 32; // Размер пикселя !КОНСТАНТА!
     private final int SIZE = 500; // Размер поля !КОНСТАНТА!
     private static final int ALL_DOTS = 400; // Сколько пикселей можно заполнить
-    private final boolean righteleport = false;
     public static int appleX; // Позиция яблока по ширине
     public static int appleY; // Позиция яблока по высоте
     public static int[] x = new int[ALL_DOTS]; // Массивы для сохранения кординат змейки
@@ -22,8 +21,8 @@ public class Mechanics extends JPanel implements ActionListener {
     public int backgrondX = 0;
     public int backgrondY = 510;
     Music music = new Music();
-    private Image dot; // рисунок пикселя
-    private Image AppleI; // рисунок яблока
+    public static Image dot; // рисунок пикселя
+    public static Image AppleI; // рисунок яблока
     private Timer timer;
     public static boolean left = false;     //Напрвление змейки
     public static boolean right = true;
@@ -31,13 +30,13 @@ public class Mechanics extends JPanel implements ActionListener {
     public static boolean up = false;
     public boolean inGame = true;   //Проверяет нахождение в игре
     public boolean pause = false;
-    private Image background;
+    public static Image background;
 
 
     public Mechanics() { // Конструктор
         Music.play("src/Music/Music.Wav");
         setBackground(Color.black); // Цвет поля, окна
-        loadImage();
+        LoadImage.loadImage();
         newGame();
         addKeyListener(new KeyField()); // метод обрабатывающий команды класса
         setFocusable(true); // фокусирует команды на поле
@@ -60,15 +59,7 @@ public class Mechanics extends JPanel implements ActionListener {
 
 
 
-    public void loadImage() { // Метод загрузки картинок
-        ImageIcon iie = new ImageIcon("src/Image/Доп фон.png");
-        background = iie.getImage();
-        ImageIcon iia = new ImageIcon("src/Image/Apple.png");
-        AppleI = iia.getImage();
-        ImageIcon iid = new ImageIcon("src/Image/dots.png");
-        dot = iid.getImage();
 
-    }
 
 
 
@@ -283,7 +274,7 @@ public class Mechanics extends JPanel implements ActionListener {
             } else {
                 timer.start();
                 pause = false;
-                System.out.println(pause);
+               
 
             }
 
